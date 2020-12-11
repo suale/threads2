@@ -7,7 +7,7 @@ namespace threads2
 {
     class Asansor
     {
-        public int MgittdenemeyProperty { get; set; }
+        
         public int Kapasite = 10;
 
         public int MevcutSayi = 0;
