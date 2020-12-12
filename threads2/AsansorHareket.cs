@@ -170,7 +170,27 @@ namespace threads2
 
         }
 
+        public void YeniAsansorHareket(Asansor asansor, Kuyruk musteriKuyruguListesi, AsansorHareket hareket)
+        {
+            while (asansor.AktifMi == true && musteriKuyruguListesi.MusteriKuyrugu.Count > 0)
+            {
 
+                hareket.HedefBelirle(musteriKuyruguListesi, asansor);
+
+                hareket.MusteriAlmayaGit(asansor);
+                hareket.MusteriAl(musteriKuyruguListesi, asansor);
+
+                //Console.WriteLine("Asansör No: 1" + "\nAsansör Hedef: " + avmKur.asansorler[0].HedefKat);
+
+
+                //Console.WriteLine("Kişi sayısı: " + avmKur.asansorler[0].MevcutSayi);
+                hareket.MusteriBirakmayaGit(asansor);
+                hareket.MusteriBirak(musteriKuyruguListesi, asansor);
+                // Console.WriteLine(musteriKuyruguListesi.KuyrukToplam());
+                // Console.WriteLine("Asansör bilgisi: "+avmKur.asansorler[0].mevcutSayi+" "+musteriKuyruguListesi.kuyrukToplam());
+                Thread.Sleep(500);
+            }
+        }
 
 
 
