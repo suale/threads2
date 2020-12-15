@@ -16,19 +16,17 @@ namespace threads2
         {
 
 
-            KatAsansor avmKur = new KatAsansor();//Asansörleri ve katları tanımlar +2
+            KatAsansor avmKur = new KatAsansor();
 
             avmKur.KatYap();
             avmKur.AsansorYap();
-
-            //avmKur.asansorler[1].AktifMi = true;//silincek
 
             ManualResetEvent asansor1_event = new ManualResetEvent(true);
             ManualResetEvent asansor2_event = new ManualResetEvent(true);
             ManualResetEvent asansor3_event = new ManualResetEvent(true);
             ManualResetEvent asansor4_event = new ManualResetEvent(true);
 
-            Kuyruk musteriKuyruguListesi = new Kuyruk();//Bütün katlardaki yolcu gruplarını listeler
+            Kuyruk musteriKuyruguListesi = new Kuyruk();
 
             Musteri musteriOrnek = new Musteri
             {
@@ -36,14 +34,14 @@ namespace threads2
                 KatNo = 0,                   //Program ilk çalıştırıldığında listede obje bulunması için initial değer.
                 MusteriSayisi = 1
             };
-            musteriKuyruguListesi.MusteriKuyrugu.Add(musteriOrnek);//silincek
-            musteriKuyruguListesi.MusteriKuyrugu.Add(musteriOrnek);//silincek
+            musteriKuyruguListesi.MusteriKuyrugu.Add(musteriOrnek);
+            musteriKuyruguListesi.MusteriKuyrugu.Add(musteriOrnek);
 
             AsansorHareket hareket = new AsansorHareket();
 
             //=========================================================================================================================
 
-            void loginYap()//Zemin kattan avm'ye giriş yapılmasını sağlar.
+            void loginYap()
             {
 
 
@@ -63,7 +61,7 @@ namespace threads2
             }
 
             //=========================================================================================================================
-            void exitYap()//Zemin olmayan katlarda exit'e gidecek yolcuları kuyruğa ekler.
+            void exitYap()
             {
 
 
@@ -75,8 +73,7 @@ namespace threads2
                     gelen.HedefKat = 0;
                     gelen.KatNo = rnd.Next(1, 5);
                     musteriKuyruguListesi.KuyrugaEkle(gelen);
-                    //Console.WriteLine(gelen.musteriSayisi + " " + gelen.hedefKat);
-                    Thread.Sleep(1000);//1000 olcak
+                    Thread.Sleep(1000);
 
                 }
 
@@ -99,7 +96,6 @@ namespace threads2
                 }
 
             }
-
             void asansor2Hareket()
             {
                 while (true)
@@ -132,14 +128,13 @@ namespace threads2
             }
 
             //=========================================================================================================================
-            //=========================================================================================================================
+      
             Thread asansor0 = new Thread(asansorHareket);
             Thread asansor1 = new Thread(asansor1Hareket);
             Thread asansor2 = new Thread(asansor2Hareket);
             Thread asansor3 = new Thread(asansor3Hareket);
             Thread asansor4 = new Thread(asansor4Hareket);
             
-
             //===========================================================================================================
 
 
@@ -152,9 +147,7 @@ namespace threads2
                 while (musteriKuyruguListesi.MusteriKuyrugu.Count > 0)
                 {
                     Thread.Sleep(500);
-                    Console.WriteLine(musteriKuyruguListesi.KuyrukToplam());
-                    Console.WriteLine(calisanAsansorSayisi+"----------------");
-
+                    
                     if (musteriKuyruguListesi.KuyrukToplam() > 20 && (asansor1.IsAlive == false || asansor2.IsAlive == false || asansor3.IsAlive == false || asansor4.IsAlive == false))
                     {
 
@@ -285,15 +278,16 @@ namespace threads2
                     
                     foreach (var item in avmKur.asansorler)
                     {
-                        
-                            Console.WriteLine("Asansor no: "+item.AsansorNo);
-                            Console.WriteLine("Asansor şu an kat: " + item.SuAnKat);
-                            Console.WriteLine("Asansor yön: " + item.Yon);
-                            Console.WriteLine("Asansor hedef: " + item.HedefKat);
-                            Console.WriteLine("Asansor müsteri sayısı: " + item.MevcutSayi);
-                        
+
+                        Console.WriteLine("----------------------------------------");
+                        Console.WriteLine("Asansor no: " + item.AsansorNo);
+                        Console.WriteLine("Asansor şu an kat: " + item.SuAnKat);
+                        Console.WriteLine("Asansor yön: " + item.Yon);
+                        Console.WriteLine("Asansor müsteri sayısı: " + item.MevcutSayi);
+                        Console.WriteLine("----------------------------------------");
+
                     }
-                    Thread.Sleep(400);
+                    Thread.Sleep(200);
                 }
 
             }
@@ -303,28 +297,14 @@ namespace threads2
 
 
             Thread kontrolT = new Thread(kontrol);
-
             Thread Login = new Thread(loginYap);
-            Thread Exit = new Thread(exitYap);
-            
-           
+            Thread Exit = new Thread(exitYap);           
             Thread durum = new Thread(asansorDurum);
-
-
             kontrolT.Start();
             Login.Start();
-            Exit.Start();
-            
-
+            Exit.Start();            
             asansor0.Start();
-            //durum.Start();
-
-            //asansor1.Start();
-
-
-
-
-
+            durum.Start();
 
             Console.ReadLine();
 
@@ -337,41 +317,16 @@ namespace threads2
 
             foreach (var item in avmKur.asansorler)
             {
-
+                Console.WriteLine("----------------------------------------");
                 Console.WriteLine("Asansor no: " + item.AsansorNo);
                 Console.WriteLine("Asansor şu an kat: " + item.SuAnKat);
                 Console.WriteLine("Asansor yön: " + item.Yon);
                 Console.WriteLine("Asansor hedef: " + item.HedefKat);
                 Console.WriteLine("Asansor müsteri sayısı: " + item.MevcutSayi);
-
+                Console.WriteLine("----------------------------------------");                    
             }
 
             Console.ReadLine();
-
-
-
         }
     }
 }
-//if (musteriKuyruguListesi.KuyrukToplam() > 20 && asansor1.IsAlive == false)
-//{
-//    asansor1.Start();
-//    avmKur.asansorler[1].AktifMi = true;
-//    Console.WriteLine("Bir numaralı asansör başlatıldı...");
-//}
-//else if (musteriKuyruguListesi.KuyrukToplam() > 20 && asansor1.IsAlive == true)
-//{
-//    _event.Set();
-//    Console.WriteLine("Bir numaralı asansör aktif.");
-//}
-//else if (musteriKuyruguListesi.KuyrukToplam() <= 20 && asansor1.IsAlive == true)
-//{
-//    _event.Reset();
-//    Console.WriteLine("Bir numaralı asansör pasif.");
-//    avmKur.asansorler[1].AktifMi = false;
-//}
-//else if (musteriKuyruguListesi.KuyrukToplam() <= 0)
-//{
-//    asansor1.Abort();
-//}
-//Thread.Sleep(500);

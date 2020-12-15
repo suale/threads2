@@ -8,7 +8,7 @@ namespace threads2
     class AsansorHareket
     {
 
-        public void HedefBelirle(Kuyruk aktifKuyruk, Asansor asansor)//mainde yazılacak fonksiyona musteriTasi fonksiyonu ile aynı id'li asansor parametre olarak veilecek
+        public void HedefBelirle(Kuyruk aktifKuyruk, Asansor asansor)
         {
             int Min = 5;
 
@@ -31,17 +31,11 @@ namespace threads2
                     if (asansor.HedefMusteri == item)
                     {
                         item.AsansorCagirdimi = true;
-                       // break;
+                       
                     }
                 }
-               // Console.WriteLine("Asansörün hedefi {0}. kattaki {1} kişi",asansor.HedefMusteri.KatNo,asansor.HedefMusteri.MusteriSayisi);
-                Min = 5;
-
-                //asansor.HedefMusteri = aktifKuyruk.MusteriKuyrugu[asansor.AsansorNo];
-                //asansor.HedefKat = aktifKuyruk.MusteriKuyrugu[asansor.AsansorNo].HedefKat;
-
-
-
+               
+                Min = 5;               
             }
 
         }
@@ -55,33 +49,23 @@ namespace threads2
                     if (asansor.HedefMusteri.KatNo < asansor.SuAnKat)
                     {
                         asansor.SuAnKat--;
-                        asansor.Yon = "Asansör müşteri almak için aşağı iniyor";
-                        //Console.WriteLine(asansor.Yon);
-
+                        asansor.Yon = "Asansör müşteri almak için aşağı iniyor";                        
                     }
                     else if (asansor.HedefMusteri.KatNo > asansor.SuAnKat)
                     {
                         asansor.SuAnKat++;
-                        asansor.Yon = "Asansör müşteri almak için yukarı çıkıyor";
-                        //Console.WriteLine(asansor.Yon);
-
+                        asansor.Yon = "Asansör müşteri almak için yukarı çıkıyor";                        
                     }
                     Thread.Sleep(200);
-                }
-                //Console.WriteLine(asansor.Yon);
+                }               
                 if (asansor.HedefMusteri.KatNo == asansor.SuAnKat)
                 {
                     asansor.Yon = "Asansör müşteri almak için durdu.";
-                    //Console.WriteLine(asansor.Yon);
-
+                    asansor.MevcutSayi = asansor.HedefMusteri.MusteriSayisi;
                 }
-
             }
         }
-
-        //---------------------------------------------------------------------------------------------------------------------
-
-       
+        //---------------------------------------------------------------------------------------------------------------------      
         public void MusteriAl(Kuyruk aktifKuyruk, Asansor asansor)
         {
             lock (aktifKuyruk)
@@ -91,16 +75,9 @@ namespace threads2
                     asansor.IcindekiMusteri = asansor.HedefMusteri;
                     asansor.MevcutSayi = asansor.IcindekiMusteri.MusteriSayisi;
                     asansor.HedefKat = asansor.IcindekiMusteri.HedefKat;
-                    aktifKuyruk.KuyruktanCikar(asansor.HedefMusteri);//bu satır çok önemli
-                    //Console.WriteLine("Asansör şu katta: " + asansor.SuAnKat);
-                    //Console.WriteLine("Asansör müşteri alıyor");
-                    //Console.WriteLine("Asansörün içinde {0}. kattan aldığı {1} kişi var.",asansor.IcindekiMusteri.KatNo,asansor.IcindekiMusteri.MusteriSayisi);
-                    
-                }
-               
+                    aktifKuyruk.KuyruktanCikar(asansor.HedefMusteri);                    
+                }               
             }
-
-
         }
 
         //---------------------------------------------------------------------------------------------------------------------
@@ -114,24 +91,21 @@ namespace threads2
                     {
                         asansor.SuAnKat--;
                         asansor.Yon = "Asansör müşteri bırakmak için aşağı iniyor";
-                      //  Console.WriteLine(asansor.Yon);
-
+                     
                     }
                     else if (asansor.IcindekiMusteri.HedefKat > asansor.SuAnKat)
                     {
                         asansor.SuAnKat++;
                         asansor.Yon = "Asansör müşteri bırakmak için yukarı çıkıyor";
-                        //Console.WriteLine(asansor.Yon);
 
                     }
                     Thread.Sleep(200);
                 }
-                //Console.WriteLine(asansor.Yon);
+               
                 if (asansor.IcindekiMusteri.HedefKat == asansor.SuAnKat)
                 {
                     asansor.Yon = "Asansör müşteri bırakmak için durdu.";
-                    //Console.WriteLine(asansor.Yon);
-
+                    asansor.MevcutSayi = 0;
                 }
 
             }
@@ -145,28 +119,17 @@ namespace threads2
                 {
                     if (asansor.IcindekiMusteri.HedefKat == 0)
                     {
-
                         aktifKuyruk.KuyruktanCikar(asansor.IcindekiMusteri);
-                        //aktifKuyruk.KuyruktanCikar(asansor.HedefMusteri);//şimdi ekledin deneme
-
-                      //  Console.WriteLine("Asansör {0}. katta müşteri bıraktı.", asansor.SuAnKat);
                     }
                     else
                     {
-                        
                         asansor.IcindekiMusteri.HedefKat = 0;
                         asansor.IcindekiMusteri.KatNo = asansor.SuAnKat;
                         asansor.IcindekiMusteri.AsansorCagirdimi = false;
                         aktifKuyruk.KuyrugaEkle(asansor.IcindekiMusteri);
-                        //Console.WriteLine("Asansör {0}. katta müşteri bıraktı.", asansor.SuAnKat);
                     }
-
-
-
-                }
-               
+                }               
             }
-
 
         }
 
@@ -176,35 +139,13 @@ namespace threads2
             {
 
                 hareket.HedefBelirle(musteriKuyruguListesi, asansor);
-
                 hareket.MusteriAlmayaGit(asansor);
                 hareket.MusteriAl(musteriKuyruguListesi, asansor);
-
-                //Console.WriteLine("Asansör No: 1" + "\nAsansör Hedef: " + avmKur.asansorler[0].HedefKat);
-
-
-                //Console.WriteLine("Kişi sayısı: " + avmKur.asansorler[0].MevcutSayi);
                 hareket.MusteriBirakmayaGit(asansor);
                 hareket.MusteriBirak(musteriKuyruguListesi, asansor);
-                // Console.WriteLine(musteriKuyruguListesi.KuyrukToplam());
-                // Console.WriteLine("Asansör bilgisi: "+avmKur.asansorler[0].mevcutSayi+" "+musteriKuyruguListesi.kuyrukToplam());
                 Thread.Sleep(500);
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     }
 }
