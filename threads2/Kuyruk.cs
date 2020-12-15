@@ -19,6 +19,7 @@ namespace threads2
                     toplam += item.MusteriSayisi;
                 }
 
+
                 return toplam;
             }
 
@@ -42,6 +43,7 @@ namespace threads2
             }
 
         }
+     
 
     }
 }
