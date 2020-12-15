@@ -61,7 +61,7 @@ namespace threads2
                 if (asansor.HedefMusteri.KatNo == asansor.SuAnKat)
                 {
                     asansor.Yon = "Asansör müşteri almak için durdu.";
-                    asansor.MevcutSayi = asansor.HedefMusteri.MusteriSayisi;
+                    asansor.MevcutSayi=asansor.HedefMusteri.MusteriSayisi;
                 }
             }
         }
@@ -75,7 +75,8 @@ namespace threads2
                     asansor.IcindekiMusteri = asansor.HedefMusteri;
                     asansor.MevcutSayi = asansor.IcindekiMusteri.MusteriSayisi;
                     asansor.HedefKat = asansor.IcindekiMusteri.HedefKat;
-                    aktifKuyruk.KuyruktanCikar(asansor.HedefMusteri);                    
+                    aktifKuyruk.KuyruktanCikar(asansor.HedefMusteri);
+                    
                 }               
             }
         }
@@ -120,6 +121,7 @@ namespace threads2
                     if (asansor.IcindekiMusteri.HedefKat == 0)
                     {
                         aktifKuyruk.KuyruktanCikar(asansor.IcindekiMusteri);
+                        
                     }
                     else
                     {
@@ -127,6 +129,7 @@ namespace threads2
                         asansor.IcindekiMusteri.KatNo = asansor.SuAnKat;
                         asansor.IcindekiMusteri.AsansorCagirdimi = false;
                         aktifKuyruk.KuyrugaEkle(asansor.IcindekiMusteri);
+                        
                     }
                 }               
             }

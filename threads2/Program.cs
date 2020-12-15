@@ -237,6 +237,7 @@ namespace threads2
                   
                   else   if(musteriKuyruguListesi.KuyrukToplam() <= 0)
                     {
+                       
                         asansor1.Abort();
                         asansor2.Abort();
                         asansor3.Abort();
@@ -268,10 +269,11 @@ namespace threads2
                         {
                             Console.WriteLine("Asansor hedef: " + item.IcindekiMusteri.HedefKat);
                         }
-                        else if(item.HedefMusteri!=null)
+                        else if (item.HedefMusteri != null)
                         {
                             Console.WriteLine("Asansor hedef: " + item.HedefMusteri.KatNo);
                         }
+                        
                         
                         Console.WriteLine("Asansor müsteri sayısı: " + item.MevcutSayi);
                         Console.WriteLine("----------------------------------------");
@@ -299,10 +301,8 @@ namespace threads2
             Console.ReadLine();
 
 
-            foreach (var item in musteriKuyruguListesi.MusteriKuyrugu)
-            {
-                Console.WriteLine("musteri sayisi "+item.MusteriSayisi + "hedef kat " + item.HedefKat+"su anki kat"+item.KatNo);
-            }
+
+            Console.WriteLine("SON DURUM");
             Console.WriteLine("Kuyrukraki toplam kişi sayısı: "+musteriKuyruguListesi.KuyrukToplam());
 
             
